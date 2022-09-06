@@ -8,10 +8,11 @@ import java.security.MessageDigest;
 public class Blob {
 	
 	public File file;
+	public String sha; 
 
 	public Blob (String filePath) {
 		file = new File(filePath); //this does not work
-		makeFile();
+		makeFile(); //this declares sha
 	}
 	
 	public void makeFile () {
@@ -22,85 +23,33 @@ public class Blob {
 		catch (IOException e) { System.out.println(e); return; }
 		
 		
-		//this does not work
+		//get sha1 of file contents
 		byte[] fileContent = fileContents.getBytes();
+		String shaName = byteToHexSha(fileContent);
+		sha = shaName;
 		
-		
-		
-		String sha = byteToHexSha(fileContent);
-		
-		//renameFile(sha);
-		
-		//making file 
+		//make file with sha1 name
 		try { Files.write( Paths.get("./objects/" + sha + ".txt"), fileContents.getBytes() ); }
 		catch (Exception e) { System.out.println(e); return; }
 		
 		
-		
-		//copyFile(filePath); //assume Objects folder exists
-		
-		
-		//convert the file to sha string
-		
-		
-		
 	
-		
-		//./file.txt
-		
-		
-		//go to objects folder
-		
-		
-		
-		
-		
-		//make new file with same contents and file name of sha1-code
-		
-		
-		
-		
 		//bonus: read and write the data as zip compressed file
 		
 		
-		
-		
-		
-		
 	}
-	
 	
 	//make getter and setter for sha1 to use later
 	public String getSha (String filePath) {
-		return "";
+		return sha;
 	}
-	
-// ======================================= Tester ===================================================
-	
-	public static void main (String [] hehe) {
-		Blob a = new Blob ("./perplexing.txt");
-		
-		/*
-		try {
-			System.out.println(a.fileToString());
-		} catch (IOException e) {
-			System.out.println("Cringe");
-			System.out.println(e);
-		}
-		*/
-		a.makeFile();
-	}	
 	
 //---------------------------------------- Stolen Code -----------------------------------------------	
 
 	public String fileToString() throws IOException {
 		Path fPath = Path.of(file.getPath());
-		//Path fPath = Path.of("c:/temp/demo.txt");
-
 		return Files.readString(fPath);
 	}
-	
-	
 	
 	public String byteToHexSha (byte[] fileBytes) {
 		MessageDigest md = null;
