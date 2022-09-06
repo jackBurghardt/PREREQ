@@ -1,5 +1,8 @@
 import java.io.*;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 
 public class Blob {
@@ -8,24 +11,43 @@ public class Blob {
 
 	public Blob (String filePath) {
 		file = new File(filePath); //this does not work
+		makeFile();
 	}
-
 	
-
-
-	
-	public void makeFile (String filePath) {
-		//get the file into a string
+	public void makeFile () {
 		
+		//gets content of file
+		String fileContents = "";
+		try { fileContents = fileToString(); }
+		catch (IOException e) { System.out.println(e); return; }
+		
+		
+		//this does not work
+		byte[] fileContent = fileContents.getBytes();
+		
+		
+		
+		String sha = byteToHexSha(fileContent);
+		
+		//renameFile(sha);
+		
+		//making file 
+		try { Files.write( Paths.get("./objects/" + sha + ".txt"), fileContents.getBytes() ); }
+		catch (Exception e) { System.out.println(e); return; }
+		
+		
+		
+		//copyFile(filePath); //assume Objects folder exists
 		
 		
 		//convert the file to sha string
 		
 		
 		
-		//this does not work
-		byte[] fileContent = filePath.getBytes();
-		String sha = byteToHexSha(fileContent);
+	
+		
+		//./file.txt
+		
 		
 		//go to objects folder
 		
@@ -53,10 +75,33 @@ public class Blob {
 		return "";
 	}
 	
+// ======================================= Tester ===================================================
 	
+	public static void main (String [] hehe) {
+		Blob a = new Blob ("./perplexing.txt");
+		
+		/*
+		try {
+			System.out.println(a.fileToString());
+		} catch (IOException e) {
+			System.out.println("Cringe");
+			System.out.println(e);
+		}
+		*/
+		a.makeFile();
+	}	
 	
-//-------------------------------------------------------------------------------------------------	
+//---------------------------------------- Stolen Code -----------------------------------------------	
 
+	public String fileToString() throws IOException {
+		Path fPath = Path.of(file.getPath());
+		//Path fPath = Path.of("c:/temp/demo.txt");
+
+		return Files.readString(fPath);
+	}
+	
+	
+	
 	public String byteToHexSha (byte[] fileBytes) {
 		MessageDigest md = null;
 	    try { md = MessageDigest.getInstance("SHA-1");}
