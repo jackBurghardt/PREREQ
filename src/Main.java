@@ -3,7 +3,7 @@ import java.io.IOException;
 public class Main {
 
 	public static void main (String [] hehe) {
-		Blob a = new Blob ("./perplexing.txt");
+		Blob a = new Blob ("perplexing.txt");
 		Index b = new Index ();
 		
 		
@@ -18,7 +18,7 @@ public class Main {
 		
 		a.makeFile();
 		
-		b.addBlob();
+		b.addBlob("perplexing.txt");
 	}	
 	
 }

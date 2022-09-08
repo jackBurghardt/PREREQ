@@ -9,10 +9,12 @@ public class Blob {
 	
 	public File file;
 	public String sha; 
+	public String fileDesc;
 
 	public Blob (String filePath) {
 		file = new File(filePath); //this does not work
 		makeFile(); //this declares sha
+		fileDesc = filePath + " : " + sha;
 	}
 	
 	public void makeFile () {
@@ -38,12 +40,17 @@ public class Blob {
 		
 		
 	}
-	
-	//make getter and setter for sha1 to use later
-	public String getSha (String filePath) {
-		return sha;
-	}
-	
+
+	public boolean pop() {
+		try {
+			file.delete();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}	
 //---------------------------------------- Stolen Code -----------------------------------------------	
 
 	public String fileToString() throws IOException {
