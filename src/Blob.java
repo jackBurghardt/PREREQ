@@ -34,22 +34,22 @@ public class Blob {
 		try { Files.write( Paths.get("./objects/" + sha + ".txt"), fileContents.getBytes() ); }
 		catch (Exception e) { System.out.println(e); return; }
 		
-		
-	
 		//bonus: read and write the data as zip compressed file
 		
 		
 	}
 
+	//throws a bomb at the index folder and hopes it works
 	public boolean pop() {
 		try {
-			file.delete();
+			//kills the satan span of a file
+			File fileToDel = new File("./objects/" + sha + ".txt");
+			fileToDel.delete();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-		
 	}	
 //---------------------------------------- Stolen Code -----------------------------------------------	
 

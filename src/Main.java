@@ -3,12 +3,9 @@ import java.io.IOException;
 public class Main {
 
 	public static void main (String [] hehe) {
+		
+		/*
 		Blob a = new Blob ("perplexing.txt");
-		Index b = new Index ();
-		
-		
-		
-		
 		try {
 			System.out.println(a.fileToString());
 		} catch (IOException e) {
@@ -17,8 +14,14 @@ public class Main {
 		}
 		
 		a.makeFile();
+		*/
+		
+		Index b = new Index ();
 		
 		b.addBlob("perplexing.txt");
+		b.addBlob("crankyKong.txt");
+		
+		//b.removeBlob("crankyKong.txt");
 	}	
 	
 }

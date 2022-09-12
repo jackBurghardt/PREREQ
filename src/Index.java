@@ -7,21 +7,19 @@ import java.util.LinkedList;
 public class Index {
 	
 	HashMap<String, Blob> blobMap = new HashMap<String, Blob>();
-	FileWriter author = null;
-	File indexFile = null;
+	LinkedList<String> blobs = new LinkedList<String>();
+	File indexFile;
 	
 	public Index () {
-		
 		//init a project that has empty file named index 
 		try { 
-			Files.write( Paths.get("index.txt"), "".getBytes() ) ;
+			Files.write( Paths.get("index.txt"), "".getBytes() );
 			indexFile = new File("index.txt");
-			author = new FileWriter(indexFile);
+			
 		}
 		catch (Exception e) { e.printStackTrace(); return; }
 		
-		
-		//create Objects folder
+		//creates Objects folder
 		new File("./objects").mkdirs();
 	}
 	
@@ -29,10 +27,19 @@ public class Index {
 		//need to check for bad input
 		Blob temp = new Blob (fileName);
 		blobMap.putIfAbsent(fileName, temp); 
+		//need to check if already there
+		blobs.add(fileName);
 		
-		//add the thing to the list
-		try { author.write(temp.fileDesc + "\n"); }
-		catch (Exception e) { e.printStackTrace(); }
+		//add the thing to the index in form of
+		//fileName : sha1
+		
+		
+		try {
+			//adding true should mean data is not overwritten
+			FileWriter author = new FileWriter(indexFile, true);
+			author.write(temp.fileDesc + "\n");
+			author.close();
+		} catch (Exception e) { e.printStackTrace(); return false; }
 		
 		return true;
 	}
@@ -41,25 +48,30 @@ public class Index {
 		//need to check for bad input
 		Blob blob = blobMap.get(fileName);
 		blobMap.remove(fileName);
+		blobs.remove(fileName);
 		
-		//add the thing to the list
+		//remove the thing from the list
 		try {
-			PrintWriter writer = new PrintWriter(indexFile);
-			writer.print("");
-		} catch (Exception e) {
+			//janky way to clear file by overwriting it as blank
+			FileWriter author = new FileWriter(indexFile);
+			author.write("");
 			
+			//rewrites all the list items
+			//this is terribly inefficient but if you say anything I will strangle a cat
+			for (String cur : blobs) {
+				author.write(blobMap.get(cur).fileDesc + "\n");
+			}
+			
+			author.close();
+			
+		} catch (Exception e) {
+			 e.printStackTrace();
+			 return false;
 		}
-
 		
-		
+		//deletes the file in the objects folder
+		//everything has been deleted from all lists so file should de-reference and get swept
 		return blob.pop();		
 	}
-
-	//store filename and sha1 value 
-	//adds it to 'index' file
-	
-
-	
-
 
 }
