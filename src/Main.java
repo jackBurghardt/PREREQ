@@ -18,10 +18,17 @@ public class Main {
 		
 		Index b = new Index ();
 		
+		
+		//this works
+		//it doesnt but i can try to manifest it
+		//ok maybe it works a bit
+		b.addBlob("perplexing.txt");
 		b.addBlob("perplexing.txt");
 		b.addBlob("crankyKong.txt");
-		
-		//b.removeBlob("crankyKong.txt");
+		b.addBlob("notA file with bad name test. this file doesnt exist if you cant tell.ppdf");
+		b.removeBlob("crankyKong.txt");
+		b.removeBlob("death by glamour by toby fox");
+		b.removeBlob("badump.txt");//this is a real file
 	}	
 	
 }

@@ -1,33 +1,29 @@
+//import things because i am a menace
 import java.io.*;
-
-//all of these were auto imported by eclipse and I dont want to touch them
-//likely radio active
-import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.MessageDigest;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.nio.file.*;
+import java.security.*;
+import java.util.zip.*;
 
 //code is best understood while descending into madness
 //there are many optimizations to be made here if I was not lazy
 //I unfortunately have much bad news for me
 public class Blob {
 	
+	//public variable that are never referenced outside of this class
+	//optimizations possible by using these in index when relevant
 	public File file;
 	public String sha; 
 	public String fileDesc;
 	
 	public Blob (String filePath) {
-		file = new File(filePath); //this does not work
+		file = new File(filePath); //this does not work, it does
 		makeFile(); //this declares sha to be used in next line
 		fileDesc = filePath + " : " + sha;
 	}
 	
 	public void makeFile () {
 		
-		//gets content of file
+		//gets content of file to string
 		String fileContents = "";
 		try { fileContents = fileToString(); }
 		catch (IOException e) { System.out.println(e); return; }
@@ -39,6 +35,8 @@ public class Blob {
 		
 		//bonus: read and write the data as zip compressed file
 		//I stole this code and hopefully changed the right stuff so it could do what I wanted
+		//does what its supposed to by ziping file with sha name
+		//many optimizations possible here but i ran out of tea
 		try {
 			//this is all stolen code
 			FileOutputStream fos = new FileOutputStream("./objects/" + sha + ".zip");
@@ -58,20 +56,13 @@ public class Blob {
 			e.printStackTrace();
 		}
 		
-		
-		//make file with sha1 name
-		//this is now old code now that I changed to useing zips, can always go back if things get spicy
-		//try { Files.write( Paths.get("./objects/" + sha + ".txt"), fileContents.getBytes() ); }
-		//catch (Exception e) { System.out.println(e); return; }
-
-		
 	}
 
-	//throws a bomb at the index folder and hopes it works
+	//throws a bomb at the index folder with a dream that it works
 	public boolean pop() {
 		try {
-			//kills the satan span of a file
-			File fileToDel = new File("./objects/" + sha + ".txt");
+			//kills the satan span
+			File fileToDel = new File("./objects/" + sha + ".zip");
 			fileToDel.delete();
 			return true;
 		} catch (Exception e) {
@@ -86,6 +77,7 @@ public class Blob {
 		return Files.readString(fPath);
 	}
 	
+	//nuclear bomb chess theory
 	public String byteToHexSha (byte[] fileBytes) {
 		MessageDigest md = null;
 	    try { md = MessageDigest.getInstance("SHA-1");}

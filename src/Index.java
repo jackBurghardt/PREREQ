@@ -13,9 +13,10 @@ public class Index {
 	public Index () {
 		//init a project that has empty file named index 
 		try { 
+			//writes a blank file
+			//dont worry I think there are only like 4 different ways of starting files
 			Files.write( Paths.get("index.txt"), "".getBytes() );
 			indexFile = new File("index.txt");
-			
 		}
 		catch (Exception e) { e.printStackTrace(); return; }
 		
@@ -24,7 +25,10 @@ public class Index {
 	}
 	
 	public boolean addBlob(String fileName) {
-		//need to check for bad input
+		//check for bad input
+		File checkers = new File(fileName);
+		if (!checkers.exists() || blobs.contains(fileName)) { return false; }
+		
 		Blob temp = new Blob (fileName);
 		blobMap.putIfAbsent(fileName, temp); 
 		//need to check if already there
@@ -32,8 +36,6 @@ public class Index {
 		
 		//add the thing to the index in form of
 		//fileName : sha1
-		
-		
 		try {
 			//adding true should mean data is not overwritten
 			FileWriter author = new FileWriter(indexFile, true);
@@ -45,7 +47,11 @@ public class Index {
 	}
 	
 	public boolean removeBlob(String fileName) {
-		//need to check for bad input
+		//check for bad input
+		File checkers = new File(fileName);
+		if (!checkers.exists() || !blobMap.containsKey(fileName)) { return false; }
+		
+		
 		Blob blob = blobMap.get(fileName);
 		blobMap.remove(fileName);
 		blobs.remove(fileName);
