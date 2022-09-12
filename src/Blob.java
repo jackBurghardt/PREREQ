@@ -1,19 +1,27 @@
 import java.io.*;
+
+//all of these were auto imported by eclipse and I dont want to touch them
+//likely radio active
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+//code is best understood while descending into madness
+//there are many optimizations to be made here if I was not lazy
+//I unfortunately have much bad news for me
 public class Blob {
 	
 	public File file;
 	public String sha; 
 	public String fileDesc;
-
+	
 	public Blob (String filePath) {
 		file = new File(filePath); //this does not work
-		makeFile(); //this declares sha
+		makeFile(); //this declares sha to be used in next line
 		fileDesc = filePath + " : " + sha;
 	}
 	
@@ -24,18 +32,38 @@ public class Blob {
 		try { fileContents = fileToString(); }
 		catch (IOException e) { System.out.println(e); return; }
 		
-		
 		//get sha1 of file contents
 		byte[] fileContent = fileContents.getBytes();
 		String shaName = byteToHexSha(fileContent);
 		sha = shaName;
 		
-		//make file with sha1 name
-		try { Files.write( Paths.get("./objects/" + sha + ".txt"), fileContents.getBytes() ); }
-		catch (Exception e) { System.out.println(e); return; }
-		
 		//bonus: read and write the data as zip compressed file
+		//I stole this code and hopefully changed the right stuff so it could do what I wanted
+		try {
+			//this is all stolen code
+			FileOutputStream fos = new FileOutputStream("./objects/" + sha + ".zip");
+			ZipOutputStream zipOut = new ZipOutputStream(fos);
+	        FileInputStream fis = new FileInputStream(file);
+	        ZipEntry zipEntry = new ZipEntry(file.getName());
+	        zipOut.putNextEntry(zipEntry);
+	        byte[] bytes = new byte[1024];
+	        int length;
+	        while((length = fis.read(bytes)) >= 0) {
+	            zipOut.write(bytes, 0, length);
+	        }
+	        zipOut.close();
+	        fis.close();
+	        fos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
+		
+		//make file with sha1 name
+		//this is now old code now that I changed to useing zips, can always go back if things get spicy
+		//try { Files.write( Paths.get("./objects/" + sha + ".txt"), fileContents.getBytes() ); }
+		//catch (Exception e) { System.out.println(e); return; }
+
 		
 	}
 
