@@ -27,6 +27,9 @@ public class Commit implements GitUtils {
 		this.parent = parent;
 		this.pTree = Paths.get(pTree);
 		this.summary = summary;
+		if (summary.length() > 150) {
+			summary = summary.substring(0, 150);
+		}
 	    this.author = author;
 	    date = getDate();
 	    writeToFile();
