@@ -29,6 +29,10 @@ public class Main {
 //		b.removeBlob("crankyKong.txt");
 //		b.removeBlob("death by glamour by toby fox");
 //		b.removeBlob("badump.txt");//this is a real file
+		
+		
+		Commit nathanielB = new Commit(null, "objects/aogbaojbgaoghn", "this file was made with crack", "made by me");
+		
 	}	
 	
 }
