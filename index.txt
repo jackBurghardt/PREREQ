@@ -1,0 +1,2 @@
+perplexing.txt : af1ba79a46493e6c5d7c963f731166c988f60729
+crankyKong.txt : fd2ec791f0cd9b3a3908b31b3b881bac22592ca3
