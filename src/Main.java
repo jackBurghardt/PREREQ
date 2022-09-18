@@ -1,8 +1,9 @@
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-	public static void main (String [] hehe) {
+	public static void main (String [] hehe) throws Exception {
 		
 		/*
 		Blob a = new Blob ("perplexing.txt");
@@ -31,7 +32,15 @@ public class Main {
 //		b.removeBlob("badump.txt");//this is a real file
 		
 		
-		Commit nathanielB = new Commit(null, "objects/aogbaojbgaoghn", "this file was made with crack", "made by me");
+		//Commit nathanielB = new Commit(null, "objects/aogbaojbgaoghn", "this file was made with crack", "made by me");
+		
+		/*
+		for (int i = 0; i < 10; i++) {
+			System.out.println(nathanielB.getDate());
+			TimeUnit.SECONDS.sleep(1);
+		}
+		*/
+		
 		
 	}	
 	
