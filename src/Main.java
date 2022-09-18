@@ -31,17 +31,14 @@ public class Main {
 //		b.removeBlob("death by glamour by toby fox");
 //		b.removeBlob("badump.txt");//this is a real file
 		
-		
-		//Commit nathanielB = new Commit(null, "objects/aogbaojbgaoghn", "this file was made with crack", "made by me");
-		
 		/*
+		Commit nathanielB = new Commit(null, "objects/aogbaojbgaoghn", "this file was made with crack", "made by me");
+		
 		for (int i = 0; i < 10; i++) {
 			System.out.println(nathanielB.getDate());
 			TimeUnit.SECONDS.sleep(1);
 		}
 		*/
-		
-		
 	}	
 	
 }

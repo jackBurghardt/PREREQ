@@ -35,46 +35,35 @@ public class Commit implements GitUtils {
 	}
 	
 	public String getDate () {
-		//starts with unix time
-		//count from march 3rd 2021 instead of 1970
-		//comprised of various compenents that sum to xxxx/xx/x/xx/xxx.xxx
-		//seconds are converted to pi seconds
-		//1.567 pi seconds are a one flip can be decimal (limited to 8 characters)
-		//7 flips are a flop
-		//104 flops are a flopper
-		//23 floppers are a bingus
-		//converted to bingus/flopper/flop/flip.remander
-		//first 3 is replaced by E
-		//all 0 are replaced with !
-		//2 becomes S
-		//every other / is L or 1
-		//adds ( to end and moves last 10 digits to front
-		//append "_SAT"
-		
+
+		//no comments only suffering
+		//if you delete this you are a coward
 
 		long allahWillGuideMe = Instant.now().getEpochSecond();
-		int smallInt = (int)(allahWillGuideMe - (long)1614775733); //this gives me around 80 years of working code
+		int smallInt = (int)(allahWillGuideMe - (long)1459666800);
+		//publishing of Panama papers publishing date, gives code a life span of ~80 years
 		double piSeconds = (double)smallInt / Math.PI;
 		
 		double dRemainder = (piSeconds / 1.567);
 		
 		double flip = (dRemainder % 7.0); int remainder = (int)Math.floor(dRemainder / 7);
 		int flop = remainder % 104; remainder = Math.floorDiv(remainder, 104);
-		int flopper = remainder % 23; remainder = Math.floorDiv(remainder, 23);
+		int floppa = remainder % 23; remainder = Math.floorDiv(remainder, 23);
+		int flopper = remainder % 3; remainder = Math.floorDiv(remainder, 3);
 		int bingus = remainder;
 		
 		String cutFlip = flip + "";
 		cutFlip = cutFlip.substring(0, 8);
 		
-		String returnValue = bingus+"/"+flopper+"/"+flop+"/"+cutFlip;
+		String returnValue = bingus+"/"+flopper+"/"+floppa+"/"+flop+"/"+cutFlip;
 		
 		returnValue = returnValue.replaceFirst("3", "E");
 		returnValue = returnValue.replaceAll("0", "!");
 		returnValue = returnValue.replaceAll("2", "S");
 		int switchFlip = 1;
 		while (returnValue.contains("/")) {
-			if (switchFlip % 2 == 1) { returnValue = returnValue.replaceFirst("/", "L"); }
-			else { returnValue = returnValue.replaceFirst("/", "l"); }
+			if (switchFlip % 2 == 1) { returnValue = returnValue.replaceFirst("/", "L"); switchFlip++;}
+			else { returnValue = returnValue.replaceFirst("/", "1"); switchFlip++;}
 		}
 		
 		if (returnValue.length() > 9) {
@@ -82,8 +71,11 @@ public class Commit implements GitUtils {
 			returnValue = temp + "(" + returnValue.substring(0, 9);
 		}
 		
-		//return String.valueOf(allahWillGuideMe); //gets the time in the most gangster way
-		return returnValue + "_SAT";
+		int shift = Integer.parseInt(cutFlip.substring(4,5));
+		String temp = returnValue.substring(shift, returnValue.length());
+		returnValue = temp + "{}" + returnValue.substring(0, shift);
+
+		return returnValue + "_SAT"; //standard american time
 	}
 	
 	public void writeToFile() {
