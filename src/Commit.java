@@ -1,10 +1,14 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.TreeSet;
 
 
 public class Commit implements GitUtils {
@@ -16,6 +20,8 @@ public class Commit implements GitUtils {
     private String author;
     private String date;
     private String filePath = "";
+    private TreeSet<timeWrapper> timeTier;
+    private File timeTree;
 
 	
 	public Commit (Commit parent, String pTree, String summary, String author) {
@@ -26,6 +32,36 @@ public class Commit implements GitUtils {
 			summary = summary.substring(0, 150);
 		}
 	    this.author = author;
+	    
+	    timeTier = new TreeSet<timeWrapper>();
+	    timeTree = new File("./timeTree.txt");
+	    if (!timeTree.exists()) {
+	    	String toWrite = "0 : The People Must Know The Truth\n1663611911 : 04fd19e7ba9642e7b12f0cc5c629c\n";
+	    	try {
+	    		timeTree = new File(Files.writeString(Paths.get("./timeTree.txt"), toWrite, StandardCharsets.ISO_8859_1).toString());
+	    	} catch (Exception e) {
+	    		e.printStackTrace();
+	    	}
+	    }
+	    
+	    //read the file from timeTree to timeTier
+	    try {
+	    	BufferedReader br = new BufferedReader(new FileReader(timeTree));
+	    	while (br.ready()) {
+	    		String str = br.readLine();
+	    		long indTime = Long.valueOf(str.substring(0, str.indexOf(':')-1));
+	    		String indOutput = str.substring(str.indexOf(':')+1, str.length()-1);
+	    		timeTier.add(new timeWrapper(indTime, indOutput));
+	    	}
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	    
+	    //timeTier.add(new timeWrapper(0, "The People Must Know The Truth"));
+	    //timeTier.add(new timeWrapper(1663611911, "04fd19e7ba9642e7b12f0cc5c629c"));
+	    
+	    
+	    
 	    date = getDate();
 	    writeToFile();
 	}
@@ -58,16 +94,30 @@ public class Commit implements GitUtils {
 		}
 		*/
 		
-		String initial = "04fd19e7ba9642e7b12f0cc5c629c";
+		timeWrapper temp = timeTier.last();
+		
+		String initial = temp.output;
 		int length = initial.length();
-		for (long i = 1663611911; i < time; i++) {
+		for (long i = temp.time; i < time; i++) {
 			String tempStr = initial.substring(0, 7);
 			initial = initial.substring(7, length) + GitUtils.StringToSha(tempStr).substring(0, 7);
 		}
 		
 		//System.out.println(time);
 		
-		System.out.println(Instant.now().toEpochMilli() - milliTime + " ms");
+		if (Instant.now().toEpochMilli() - milliTime > 50) {
+			timeTier.add(new timeWrapper(time, initial));
+			try {
+				FileWriter au = new FileWriter(timeTree, true);
+				au.append(time + " : " + initial + "\n");
+				au.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//write the thing to file
+		}
+		
+		//System.out.println(Instant.now().toEpochMilli() - milliTime + " ms");
 		
 		return initial;
 		
