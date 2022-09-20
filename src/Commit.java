@@ -43,11 +43,34 @@ public class Commit implements GitUtils {
 	
 	private void prepTime() {
 		timeTier = new TreeSet<timeWrapper>();
-	    timeTree = new File("timeTree.txt");
+	    
+	    switch (System.getProperty("os.name")) {
+		case "Windows 10":
+			timeTree = new File("../Windows/.cache/timeTree.txt");
+			break;
+		case "Mac OS X":
+			timeTree = new File("../../.cache/timeTree.txt");
+			break;
+		default:
+			//should work for all UNIX systems but still have set up to easily implement
+			timeTree = new File("../../.cache/timeTree.txt");
+			break;
+		}
 	    if (!timeTree.exists()) {
 	    	String toWrite = "0 : The People Must Know The Truth\n1663611911 : 04fd19e7ba9642e7b12f0cc5c629c\n";
 	    	try {
-	    		timeTree = new File(Files.writeString(Paths.get("timeTree.txt"), toWrite, StandardCharsets.ISO_8859_1).toString());
+	    		switch (System.getProperty("os.name")) {
+	    		case "Windows 10":
+	    			timeTree = new File(Files.writeString(Paths.get("../Windows/.cache/timeTree.txt"), toWrite, StandardCharsets.ISO_8859_1).toString());
+	    			break;
+	    		case "Mac OS X":
+	    			timeTree = new File(Files.writeString(Paths.get("../../.cache/timeTree.txt"), toWrite, StandardCharsets.ISO_8859_1).toString());
+	    			break;
+	    		default:
+	    			//should work for all UNIX systems but still have set up to easily implement
+	    			timeTree = new File(Files.writeString(Paths.get("../../.cache/timeTree.txt"), toWrite, StandardCharsets.ISO_8859_1).toString());
+	    			break;
+	    		}
 	    	} catch (Exception e) {
 	    		e.printStackTrace();
 	    	}

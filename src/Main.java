@@ -30,7 +30,7 @@ public class Main {
 		b.removeBlob("badump.txt");//this is a real file
 		*/
 		
-		/*
+		///*
 		Commit c = new Commit(null, "objects/aogbaojbgaoghn", "this file was made with crack", "made by me");
 		
 		for (int i = 0; i < 10; i++) {
@@ -39,7 +39,7 @@ public class Main {
 		}
 		
 		c.delete();
-		*/
+		//*/
 	}	
 	 
 }
