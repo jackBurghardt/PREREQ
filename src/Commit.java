@@ -28,17 +28,26 @@ public class Commit implements GitUtils {
 		this.parent = parent;
 		this.pTree = Paths.get(pTree);
 		this.summary = summary;
-		if (summary.length() > 150) {
-			summary = summary.substring(0, 150);
-		}
+		if (summary.length() > 150) { summary = summary.substring(0, 150); } //limits comment to 150 characters
 	    this.author = author;
 	    
-	    timeTier = new TreeSet<timeWrapper>();
-	    timeTree = new File("./timeTree.txt");
+	    prepTime();
+	    date = getDate();
+	    writeToFile();
+	}
+	
+	
+	public String generateSha1() {
+		return GitUtils.StringToSha(pTree.toString() + summary);
+	}
+	
+	private void prepTime() {
+		timeTier = new TreeSet<timeWrapper>();
+	    timeTree = new File("timeTree.txt");
 	    if (!timeTree.exists()) {
 	    	String toWrite = "0 : The People Must Know The Truth\n1663611911 : 04fd19e7ba9642e7b12f0cc5c629c\n";
 	    	try {
-	    		timeTree = new File(Files.writeString(Paths.get("./timeTree.txt"), toWrite, StandardCharsets.ISO_8859_1).toString());
+	    		timeTree = new File(Files.writeString(Paths.get("timeTree.txt"), toWrite, StandardCharsets.ISO_8859_1).toString());
 	    	} catch (Exception e) {
 	    		e.printStackTrace();
 	    	}
@@ -56,70 +65,50 @@ public class Commit implements GitUtils {
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    }
-	    
-	    //timeTier.add(new timeWrapper(0, "The People Must Know The Truth"));
-	    //timeTier.add(new timeWrapper(1663611911, "04fd19e7ba9642e7b12f0cc5c629c"));
-	    
-	    
-	    
-	    date = getDate();
-	    writeToFile();
-	}
-	
-	
-	public String generateSha1() {
-		String toSha = pTree.toString() + summary;
-		return GitUtils.StringToSha(toSha);
 	}
 	
 	public String getDate () {
 
-		
-		long milliTime = Instant.now().toEpochMilli();
-		
-		//no comments only suffering
 		//if you delete this you are a coward
 
+		//time to mutilate
 		long time = Instant.now().getEpochSecond();
 		
-		/*
-		String initial = "The People Must Know The Truth";
-		int length = initial.length();
-		for (long i = 0; i < time; i++) {
-			String tempStr = initial.substring(0, 7);
-			initial = initial.substring(7, length) + GitUtils.StringToSha(tempStr).substring(0, 7);
-			if (i % 10000000 == 0) {
-				System.out.println(i + " / " + time + " = " + initial);
-			}
-		}
-		*/
+		//time to see how long runtime is
+		long milliTime = Instant.now().toEpochMilli();
 		
+		//unwrapping last data point
 		timeWrapper temp = timeTier.last();
-		
 		String initial = temp.output;
+		long lastTime = temp.time;
+		
+		//variable that is called now to be referenced later
 		int length = initial.length();
-		for (long i = temp.time; i < time; i++) {
+		
+		for (long i = lastTime; i <= time; i++) {
+			//arbitrary modification to time string
+			//there is no known way to verify this is not cyclic but thats not my problem
 			String tempStr = initial.substring(0, 7);
 			initial = initial.substring(7, length) + GitUtils.StringToSha(tempStr).substring(0, 7);
 		}
 		
-		//System.out.println(time);
-		
+		//this the runtime took more than 50 milliseconds (0.05 seconds) then add it to index
 		if (Instant.now().toEpochMilli() - milliTime > 50) {
 			timeTier.add(new timeWrapper(time, initial));
 			try {
+				//write to file to be called later
 				FileWriter au = new FileWriter(timeTree, true);
 				au.append(time + " : " + initial + "\n");
 				au.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			//write the thing to file
 		}
 		
-		//System.out.println(Instant.now().toEpochMilli() - milliTime + " ms");
-		
 		return initial;
+		
+		//implementation of floppa bingus time if you desire it
+		//to use this comment out everything but the declaration of time 
 		
 		/*
 		int smallInt = (int)(time - (long)1459666800);
@@ -157,11 +146,8 @@ public class Commit implements GitUtils {
 		String temp = returnValue.substring(shift, returnValue.length());
 		returnValue = temp + "{}" + returnValue.substring(0, shift);
 		*/
-		
-		
 
-		//return returnValue + "_SAT"; //standard american time
-		//return time + "";
+		//return returnValue + "_SAT"; //standard American time
 	}
 	
 	public void writeToFile() {
@@ -190,9 +176,8 @@ public class Commit implements GitUtils {
 		//I tested this and it works you can trust me
 	}
 	
+	//deletes all non-cached referenced materials
 	public void delete() {
-		File temp = new File(filePath);
-		temp.delete();
+		new File(filePath).delete();
 	}
-	
 }
