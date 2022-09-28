@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,7 +8,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.TreeSet;
 
 
@@ -24,9 +27,10 @@ public class Commit implements GitUtils {
     private File timeTree;
 
 	
-	public Commit (Commit parent, String pTree, String summary, String author) {
+	public Commit (Commit parent, Tree pTree, String summary, String author, Index i) throws NoSuchAlgorithmException, IOException {
 		this.parent = parent;
-		this.pTree = Paths.get(pTree);
+		//this.pTree = Paths.get(pTree);
+		this.pTree = (Path) generatePTree(i);
 		this.summary = summary;
 		if (summary.length() > 150) { summary = summary.substring(0, 150); } //limits comment to 150 characters
 	    this.author = author;
@@ -36,6 +40,22 @@ public class Commit implements GitUtils {
 	    writeToFile();
 	}
 	
+	public Tree generatePTree(Index i) throws NoSuchAlgorithmException, IOException {
+		Tree t = new Tree (genIndex(i));
+		
+		return t;
+	}
+	
+	public ArrayList <String> genIndex(Index i) throws IOException{
+BufferedReader reader = new BufferedReader(new FileReader(i.getIndexFile()));
+		ArrayList <String> strs = new ArrayList <String>();
+while (reader.ready()) {
+	String line = reader.readLine();
+	strs.add(line);
+}
+		return strs;
+		
+	}
 	
 	public String generateSha1() {
 		return GitUtils.StringToSha(pTree.toString() + summary);

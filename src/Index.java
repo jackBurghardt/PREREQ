@@ -79,5 +79,9 @@ public class Index {
 		//everything has been deleted from all lists so file should de-reference and get swept
 		return blob.pop();		
 	}
+	
+	public File getIndexFile() {
+		return indexFile;
+	}
 
 }
