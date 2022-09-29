@@ -4,8 +4,9 @@ private Tree t;
 private Blob blobby;
 
 
-public void createCommit(Commit c, ) {
-	Commit com = new Commit ()
+public void createCommit(Commit co, String summary, String author) {
+	Commit com = new Commit (co, null, summary, author);
+		Tree tre = new Tree ()
 }
 
 

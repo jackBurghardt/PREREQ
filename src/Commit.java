@@ -38,6 +38,9 @@ public class Commit implements GitUtils {
 	    prepTime();
 	    date = getDate();
 	    writeToFile();
+	    
+	    
+	    
 	}
 	
 	public Tree generatePTree(Index i) throws NoSuchAlgorithmException, IOException {
@@ -56,6 +59,22 @@ while (reader.ready()) {
 		return strs;
 		
 	}
+	public void reformatIndex(Index i ) throws IOException {
+		ArrayList<String> strs  = genIndex(i);
+		ArrayList <String> reformat = new ArrayList<String>();
+		for (String s: strs) {
+			if (s.equals( "tree")) {
+				reformat.add(s);
+			}
+			else {
+				reformat.add(s + "");
+				
+			}
+		}
+		
+		
+	}
+	
 	
 	public String generateSha1() {
 		return GitUtils.StringToSha(pTree.toString() + summary);
