@@ -31,7 +31,7 @@ public class Commit implements GitUtils {
     
 
 	
-	public Commit (String PARENT, String pTree, String summary, String author, Index i) throws NoSuchAlgorithmException, IOException {
+	public Commit (String PARENT, String pTree, String summary, String author) throws NoSuchAlgorithmException, IOException {
 
 		this.author = author;
 		this.summary = summary; 
