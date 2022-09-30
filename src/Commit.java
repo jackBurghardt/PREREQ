@@ -15,9 +15,12 @@ import java.util.TreeSet;
 
 
 public class Commit implements GitUtils {
-	
-	//public Commit parent = null;
-//	public Commit child = null;
+	//how to delete a file use createNewFile() or delete()
+    public Commit parent = null;
+    private String parentHash;
+    public Commit child = null;
+    private String childHash;
+    Tree PT;
 	//public Path pTree;
     private String summary; //limit to 150 characters
     private String author;
@@ -25,18 +28,24 @@ public class Commit implements GitUtils {
     private String filePath = "";
     private TreeSet<timeWrapper> timeTier;
     private File timeTree;
-    private String parent;
+//    private String parent;
     private String pTree;
     private String SHA;
-    
+    boolean head;
 
 	
-	public Commit (String PARENT, String pTree, String summary, String author) throws NoSuchAlgorithmException, IOException {
+	public Commit (Commit PARENT, String summary, String author) throws NoSuchAlgorithmException, IOException {
+
 
 		this.author = author;
 		this.summary = summary; 
 		date = getDate (); 
-		
+		if (parent == null) {
+			head = true;
+		}
+		else {
+			head = false;
+		}
 		this.pTree = pTree;
 		if(parent != null) {
 			parent = PARENT; 
@@ -50,35 +59,38 @@ public class Commit implements GitUtils {
 	    
 	}
 	
-	public ArrayList <String> genIndex(Index i) throws IOException{
-BufferedReader reader = new BufferedReader(new FileReader(i.getIndexFile()));
+	public Tree getPTree() {
+		return PT;
+	}
+	public ArrayList<String> Formation() throws IOException{
+
 		ArrayList <String> strs = new ArrayList <String>();
-while (reader.ready()) {
-	String line = reader.readLine();
-	strs.add(line);
-}
+		if (parent!= null ) {
+			strs.add("Tree : " + parent.getPTree().getShawed());
+		}
+		BufferedReader reader = new BufferedReader (new FileReader ("index"));
+		String line = reader.readLine();
+		while (line!= null) {
+	strs.add("Blob: " + line.substring(line.indexOf(":")) + " " + line.substring(0, line.indexOf(":")));
+System.out.println(line);
+line = reader.readLine();
+		}
+		reader.close();
 		return strs;
 		
 	}
-	public void reformatIndex(Index i ) throws IOException {
-		ArrayList<String> strs  = genIndex(i);
-		ArrayList <String> reformat = new ArrayList<String>();
-		for (String s: strs) {
-			if (s.equals( "tree")) {
-				reformat.add(s);
-			}
-			else {
-				reformat.add(s + "");
-				
-			}
-		}
-		
-		
+
+	public String Hash()
+	{
+		SHA = generateSha1(summary + date + author + parentHash);
+		return sha1Hash;
 	}
+		
 	
 	
-	public String generateSha1() {
-		return GitUtils.StringToSha( summary + date + author + parent);
+	
+	public String generateSha1(String s) {
+		return GitUtils.StringToSha(s);( summary + date + author + parent);
 	}
 	
 	private void prepTime() {
@@ -216,6 +228,16 @@ while (reader.ready()) {
 	public void writeToFile() {
 		//I will not test this code you cannot control me
 		
+		if (child == null)
+		{
+			childSha1Hash = null;
+		}
+		else {
+			childSha1Hash = "objects/" + child.Hash();
+			System.out.println("this be the child: "" +  child);
+		}
+		
+		
 		String toWrite = "";
 		
 		toWrite += pTree.toString() + "\n";
@@ -243,4 +265,14 @@ while (reader.ready()) {
 	public void delete() {
 		new File(filePath).delete();
 	}
+   public void setParent () {
+	   parent.setChild (this);
+	   parent.writeFile();
+   }
+   public void setChild ( Commit c) {
+	   this.child = child;
+   }
+	
+	
+	
 }
