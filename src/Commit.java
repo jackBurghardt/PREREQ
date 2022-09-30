@@ -20,7 +20,7 @@ public class Commit implements GitUtils {
     private String parentHash;
     public Commit child = null;
     private String childHash;
-    Tree PT = new Tree (null);
+    public  Tree PT = new Tree (null);
 	//public Path pTree;
     private String summary; //limit to 150 characters
     private String author;
@@ -63,7 +63,7 @@ public class Commit implements GitUtils {
 		PT = aboutToDie;
 	    pFile = PT.getShawed();
 		SHA = generateSha1( summary + date + author + parent);
-		
+		writeToFile();
 	}
 	
 	public Tree getPTree() {
@@ -92,12 +92,10 @@ line = reader.readLine();
 		SHA = generateSha1(summary + date + author + parentHash);
 		return SHA;
 	}
-		
-	
-	
-	
+
 	public String generateSha1(String s) {
-		return GitUtils.StringToSha(s);
+		//return GitUtils.StringToSha(s) ;
+		return "";
 	}
 	
 	private void prepTime() {
@@ -237,22 +235,22 @@ line = reader.readLine();
 		
 		if (child == null)
 		{
-			childSha1Hash = null;
+			childHash = null;
 		}
 		else {
-			childSha1Hash = "objects/" + child.Hash();
-			System.out.println("this be the child: "" +  child);
+			childHash = "objects/" + child.Hash();
+			System.out.println("this be the child: " +  child);
 		}
 		
 		
 		String toWrite = "";
 		
-		toWrite += pTree.toString() + "\n";
+		toWrite += PT.toString() + "\n";
 		
-		if (parent != null) { toWrite += parent.pTree.toString() + "\n"; }
+		if (parent != null) { toWrite += parent.PT.toString() + "\n"; }
 		else { toWrite += "\n"; } 
 		
-		if (child != null) { toWrite += child.pTree.toString() + "\n"; }
+		if (child != null) { toWrite += child.PT.toString() + "\n"; }
 		else { toWrite += "\n"; } 
 		
 		toWrite += author + "\n";
@@ -274,7 +272,7 @@ line = reader.readLine();
 	}
    public void setParent () {
 	   parent.setChild (this);
-	   parent.writeFile();
+	   parent.writeToFile();
    }
    public void setChild ( Commit c) {
 	   this.child = child;
