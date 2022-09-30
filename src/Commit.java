@@ -20,7 +20,7 @@ public class Commit implements GitUtils {
     private String parentHash;
     public Commit child = null;
     private String childHash;
-    Tree PT;
+    Tree PT = new Tree (null);
 	//public Path pTree;
     private String summary; //limit to 150 characters
     private String author;
@@ -29,7 +29,7 @@ public class Commit implements GitUtils {
     private TreeSet<timeWrapper> timeTier;
     private File timeTree;
 //    private String parent;
-    private String pTree;
+    private String pFile;
     private String SHA;
     boolean head;
 
@@ -37,26 +37,33 @@ public class Commit implements GitUtils {
 	public Commit (Commit PARENT, String summary, String author) throws NoSuchAlgorithmException, IOException {
 
 
+		
 		this.author = author;
 		this.summary = summary; 
 		date = getDate (); 
+		parent = PARENT;
+		if (this.parent == null)
+		{
+			parentHash = null;
+		}
+		else {
+	
+			parentHash = "objects/" + parent.Hash();
+			setParent();
+		}
+		
 		if (parent == null) {
 			head = true;
 		}
 		else {
 			head = false;
 		}
-		this.pTree = pTree;
-		if(parent != null) {
-			parent = PARENT; 
-		}
-		else {
-			parent= null;
-		}
-		SHA = generateSha1();
-		writeToFile(); 
-	    
-	    
+		Tree aboutToDie = new Tree (Formation());
+		
+		PT = aboutToDie;
+	    pFile = PT.getShawed();
+		SHA = generateSha1( summary + date + author + parent);
+		
 	}
 	
 	public Tree getPTree() {
@@ -83,14 +90,14 @@ line = reader.readLine();
 	public String Hash()
 	{
 		SHA = generateSha1(summary + date + author + parentHash);
-		return sha1Hash;
+		return SHA;
 	}
 		
 	
 	
 	
 	public String generateSha1(String s) {
-		return GitUtils.StringToSha(s);( summary + date + author + parent);
+		return GitUtils.StringToSha(s);
 	}
 	
 	private void prepTime() {
