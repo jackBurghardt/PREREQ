@@ -36,7 +36,7 @@ public class Commit implements GitUtils {
 		this.author = author;
 		this.summary = summary; 
 		date = getDate (); 
-		SHA = generateSha1();
+		
 		this.pTree = pTree;
 		if(parent != null) {
 			parent = PARENT; 
@@ -44,6 +44,7 @@ public class Commit implements GitUtils {
 		else {
 			parent= null;
 		}
+		SHA = generateSha1();
 		writeToFile(); 
 	    
 	    
