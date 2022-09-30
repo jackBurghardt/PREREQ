@@ -16,37 +16,37 @@ import java.util.TreeSet;
 
 public class Commit implements GitUtils {
 	
-	public Commit parent = null;
-	public Commit child = null;
-	public Path pTree;
+	//public Commit parent = null;
+//	public Commit child = null;
+	//public Path pTree;
     private String summary; //limit to 150 characters
     private String author;
     private String date;
     private String filePath = "";
     private TreeSet<timeWrapper> timeTier;
     private File timeTree;
+    private String parent;
+    private String pTree;
+    private String SHA;
+    
 
 	
-	public Commit (Commit parent, Tree pTree, String summary, String author, Index i) throws NoSuchAlgorithmException, IOException {
-		this.parent = parent;
-		//this.pTree = Paths.get(pTree);
-		this.pTree = (Path) generatePTree(i);
-		this.summary = summary;
-		if (summary.length() > 150) { summary = summary.substring(0, 150); } //limits comment to 150 characters
-	    this.author = author;
+	public Commit (String PARENT, String pTree, String summary, String author, Index i) throws NoSuchAlgorithmException, IOException {
+
+		this.author = author;
+		this.summary = summary; 
+		date = getDate (); 
+		SHA = generateSha1();
+		this.pTree = pTree;
+		if(parent != null) {
+			parent = PARENT; 
+		}
+		else {
+			parent= null;
+		}
+		writeToFile(); 
 	    
-	    prepTime();
-	    date = getDate();
-	    writeToFile();
 	    
-	    
-	    
-	}
-	
-	public Tree generatePTree(Index i) throws NoSuchAlgorithmException, IOException {
-		Tree t = new Tree (genIndex(i));
-		
-		return t;
 	}
 	
 	public ArrayList <String> genIndex(Index i) throws IOException{
@@ -77,7 +77,7 @@ while (reader.ready()) {
 	
 	
 	public String generateSha1() {
-		return GitUtils.StringToSha(pTree.toString() + summary);
+		return GitUtils.StringToSha( summary + date + author + parent);
 	}
 	
 	private void prepTime() {
