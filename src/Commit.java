@@ -33,6 +33,7 @@ public class Commit implements GitUtils {
     private String author;
     private String date;
     private String filePath = "";
+    private boolean isHead = false;
     private TreeSet<timeWrapper> timeTier;
     private File timeTree;
     private String pHead;
