@@ -50,10 +50,7 @@ public class Commit implements GitUtils {
 		else {
 			headtf = false;
 		}
-		clear("head");
-		FileWriter fw = new FileWriter("head");
-		fw.write(this.Hash());
-		fw.close();
+		
 		
 		this.author = author;
 		this.summary = summary; 
@@ -73,6 +70,12 @@ public class Commit implements GitUtils {
 		SHA = generateSha1( summary + date + author + parent);
 		writeToFile();
 		clear("index.txt");
+		
+		clear("head");
+		BufferedWriter fw = new BufferedWriter(new FileWriter ("head", true));
+		fw.append(' ');
+		fw.append(pFile);
+		fw.close();
 	}
 	public String  getSHA() {
 		// TODO Auto-generated method stub
