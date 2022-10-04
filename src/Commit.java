@@ -40,14 +40,21 @@ public class Commit implements GitUtils {
 //    private String parent;
     private String pFile;
     private String SHA;
-    boolean headtf;
+    boolean headtf = false;
     Commit h;
     private File head = new File ("head");
 
 	
 	public Commit ( String summary, String author) throws NoSuchAlgorithmException, IOException {
-		h = this;
-
+		if (headtf == false) {
+		
+			h = this;
+			headtf = true;
+		}
+		else  {
+			h.setChild (this);
+			h = this;
+		}
 		
 		
 		this.author = author;
@@ -296,6 +303,7 @@ line = reader.readLine();
 	   parent.setChild (this);
 	   parent.writeToFile();
    }
+   
    public void setChild ( Commit c) {
 	   this.child = child;
    }
