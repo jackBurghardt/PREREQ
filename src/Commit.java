@@ -9,6 +9,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
+import java.security.Timestamp;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -20,7 +24,7 @@ public class Commit implements GitUtils {
     private String parentHash;
     public Commit child = null;
     private String childHash;
-    public  Tree PT = new Tree (null);
+    public  Tree PT = new Tree (Formation());
 	//public Path pTree;
     private String summary; //limit to 150 characters
     private String author;
@@ -35,12 +39,17 @@ public class Commit implements GitUtils {
 
 	
 	public Commit (Commit PARENT, String summary, String author) throws NoSuchAlgorithmException, IOException {
-
+		if (parent == null) {
+			head = true;
+		}
+		else {
+			head = false;
+		}
 
 		
 		this.author = author;
 		this.summary = summary; 
-		date = getDate (); 
+		date = date (); 
 		parent = PARENT;
 		if (this.parent == null)
 		{
@@ -52,15 +61,6 @@ public class Commit implements GitUtils {
 			setParent();
 		}
 		
-		if (parent == null) {
-			head = true;
-		}
-		else {
-			head = false;
-		}
-		Tree aboutToDie = new Tree (Formation());
-		
-		PT = aboutToDie;
 	    pFile = PT.getShawed();
 		SHA = generateSha1( summary + date + author + parent);
 		writeToFile();
@@ -75,7 +75,7 @@ public class Commit implements GitUtils {
 		if (parent!= null ) {
 			strs.add("Tree : " + parent.getPTree().getShawed());
 		}
-		BufferedReader reader = new BufferedReader (new FileReader ("index"));
+		BufferedReader reader = new BufferedReader (new FileReader ("index.txt"));
 		String line = reader.readLine();
 		while (line!= null) {
 	strs.add("Blob: " + line.substring(line.indexOf(":")) + " " + line.substring(0, line.indexOf(":")));
@@ -146,6 +146,12 @@ line = reader.readLine();
 	    	e.printStackTrace();
 	    }
 	}
+	public String date() {
+		 
+		 return ""+ java.time.LocalDate.now();
+	}
+	
+	
 	
 	public String getDate () {
 
