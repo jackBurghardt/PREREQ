@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -65,6 +66,15 @@ public class Commit implements GitUtils {
 		SHA = generateSha1( summary + date + author + parent);
 		writeToFile();
 	}
+	public void clear () throws IOException {
+		FileWriter file = new FileWriter("index.txt");
+		PrintWriter print = new PrintWriter(file);
+		String s = "";
+		print.write(s);
+		print.close();
+		file.close();
+	}
+	
 	
 	public Tree getPTree() {
 		return PT;

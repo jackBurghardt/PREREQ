@@ -52,14 +52,7 @@ public class Tree {
 		}
 		
 	}
-	public void clear () throws IOException {
-		FileWriter file = new FileWriter(index);
-		PrintWriter print = new PrintWriter(file);
-		String s = "";
-		print.write(s);
-		print.close();
-		file.close();
-	}
+	
 	public void createIndexFile () {
 		
 	}
