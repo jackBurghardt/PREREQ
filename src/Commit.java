@@ -98,13 +98,10 @@ public class Commit implements GitUtils {
 	public ArrayList<String> Formation() throws IOException{
 
 		ArrayList <String> strs = new ArrayList <String>();
-		if (parent!= null ) {
-			strs.add("Tree : " + parent.getPTree().getShawed());
-		}
 		BufferedReader reader = new BufferedReader (new FileReader ("index.txt"));
 		String line = reader.readLine();
 		while (line!= null) {
-	strs.add("Blob: " + line.substring(line.indexOf(":")) + " " + line.substring(0, line.indexOf(":")));
+	strs.add("Blob " + line.substring(line.indexOf(":")) + " " + line.substring(0, line.indexOf(":")));
 System.out.println(line);
 line = reader.readLine();
 		}
