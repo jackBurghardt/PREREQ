@@ -40,24 +40,26 @@ public class Commit implements GitUtils {
     private String pFile;
     private String SHA;
     boolean headtf;
+    Commit h;
     private File head = new File ("head");
 
 	
-	public Commit (Commit PARENT, String summary, String author) throws NoSuchAlgorithmException, IOException {
+	public Commit ( String summary, String author) throws NoSuchAlgorithmException, IOException {
 		if (parent == null) {
 			headtf = true;
-			
+			h = this;
 			
 		}
 		else  {
 			headtf = false;
+			parent = h;
 		}
 		
 		
 		this.author = author;
 		this.summary = summary; 
 		date = date (); 
-		parent = PARENT;
+		
 		if (this.parent == null)
 		{
 			parentHash = null;
@@ -76,7 +78,7 @@ public class Commit implements GitUtils {
 		clear("head");
 		BufferedWriter fw = new BufferedWriter(new FileWriter ("head", true));
 		fw.append(' ');
-		fw.append(pFile);
+		fw.append(this.toString());
 		fw.close();
 	}
 	public String  getSHA() {
