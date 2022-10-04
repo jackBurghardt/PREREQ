@@ -65,14 +65,12 @@ public class Commit implements GitUtils {
 	    pFile = PT.getShawed();
 		SHA = generateSha1( summary + date + author + parent);
 		writeToFile();
+		clear();
 	}
 	public void clear () throws IOException {
-		FileWriter file = new FileWriter("index.txt");
-		PrintWriter print = new PrintWriter(file);
-		String s = "";
-		print.write(s);
-		print.close();
-		file.close();
+		File file = new File("index.txt");
+		file.delete();
+		file.createNewFile();
 	}
 	
 	

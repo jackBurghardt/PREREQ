@@ -1,8 +1,5 @@
 
-
-	
-
-	import java.io.BufferedWriter;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -13,16 +10,20 @@ import java.security.NoSuchAlgorithmException;
 	public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
 			Index index = new Index();
 			
-			index.addBlob("index.txt");
+			//index.addBlob("index.txt");
 			index.addBlob("hello.txt");
-			File x = new File ("popo");
-	
-			Commit c1 = new Commit (null, "com one", "your mother");
-			Commit c2 = new Commit (c1, "com  two", "yourself");
-			System.out.println("prim commit child" + c1.Hash());
-			Commit c3 = new Commit (null, "com 3", "Dr.Who himself");
-			Commit c4 = new Commit(null, "shamamamamamamamlama", "moon Night");
+			index.addBlob("blobby.txt");
 			
+			Commit c1 = new Commit (null, "com one", "your mother");
+			index.addBlob("two.txt");
+		
+			Commit c2 = new Commit (c1, "com  two", "yourself");
+			index.addBlob("one.txt");
+	
+			Commit c3 = new Commit (c2, "com 3", "Dr.Who himself");
+			index.addBlob("bye.txt");
+			Commit c4 = new Commit(c3, "shamamamamamamamlama", "moon Night");
+		
 			
 		}
 	}

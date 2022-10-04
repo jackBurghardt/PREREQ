@@ -24,7 +24,7 @@ public class Index {
 		new File("./objects").mkdirs();
 	}
 	
-	public boolean addBlob(String fileName) {
+	public boolean addBlob(String fileName) throws FileNotFoundException {
 		//check for bad input
 		File checkers = new File(fileName);
 		if (!checkers.exists() || blobs.contains(fileName)) { return false; }
@@ -36,14 +36,19 @@ public class Index {
 		
 		//add the thing to the index in form of
 		//fileName : sha1
-		try {
-			//adding true should mean data is not overwritten
-			FileWriter author = new FileWriter(indexFile, true);
-			author.write(temp.fileDesc + "\n");
-			author.close();
-		} catch (Exception e) { e.printStackTrace(); return false; }
-		
+//		try {
+//			//adding true should mean data is not overwritten
+			PrintWriter pw = new PrintWriter("index.txt");
+			for (String str : blobMap.keySet()) {
+				pw.append(str + " : " +blobMap.get(str) + "\n");
+			}
+			pw.flush();
+			pw.close();
+//		} catch (Exception e) { e.printStackTrace(); return false; }
+//		
 		return true;
+//		
+		
 	}
 	
 	public boolean removeBlob(String fileName) {
