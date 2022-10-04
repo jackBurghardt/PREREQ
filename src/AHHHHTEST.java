@@ -14,16 +14,16 @@ import java.security.NoSuchAlgorithmException;
 			index.addBlob("hello.txt");
 			index.addBlob("blobby.txt");
 			
-			Commit c1 = new Commit (null, "com one", "your mother");
+			Commit c1 = new Commit ( "com one", "your mother");
 			index.addBlob("two.txt");
 			index.addBlob("five.txt");
-			Commit c2 = new Commit (c1, "com  two", "yourself");
+			Commit c2 = new Commit ( "com  two", "yourself");
 			index.addBlob("one.txt");
 			index.addBlob("four.txt");
-			Commit c3 = new Commit (c2, "com 3", "Dr.Who himself");
+			Commit c3 = new Commit ( "com 3", "Dr.Who himself");
 			index.addBlob("bye.txt");
 			index.addBlob("six.txt");
-			Commit c4 = new Commit(c3, "shamamamamamamamlama", "moon Night");
+			Commit c4 = new Commit( "shamamamamamamamlama", "moon Night");
 		
 			
 		}
