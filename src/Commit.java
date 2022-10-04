@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 
+
 public class Commit implements GitUtils {
 	//how to delete a file use createNewFile() or delete()
     public Commit parent = null;
@@ -34,6 +35,7 @@ public class Commit implements GitUtils {
     private String filePath = "";
     private TreeSet<timeWrapper> timeTier;
     private File timeTree;
+    private String pHead;
 //    private String parent;
     private String pFile;
     private String SHA;
@@ -47,7 +49,7 @@ public class Commit implements GitUtils {
 			
 			
 		}
-		else {
+		else  {
 			headtf = false;
 		}
 		
@@ -244,11 +246,11 @@ line = reader.readLine();
 			else { returnValue = returnValue.replaceFirst("/", "1"); switchFlip++;}
 		}
 		
-		if (returnValue.length() > 9) {
+		if (returnValue.length() > 9)  {
 			String temp = returnValue.substring(5, returnValue.length());
 			returnValue = temp + "(" + returnValue.substring(0, 9);
 		}
-		
+		  
 		int shift = Integer.parseInt(cutFlip.substring(4,5));
 		String temp = returnValue.substring(shift, returnValue.length());
 		returnValue = temp + "{}" + returnValue.substring(0, shift);
