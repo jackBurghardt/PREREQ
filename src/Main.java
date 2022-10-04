@@ -3,17 +3,17 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
 	public static void main (String [] hehe) throws Exception {
-		/*
-		Blob a = new Blob ("perplexing.txt");
-		try {
-			System.out.println(a.fileToString());
-		} catch (IOException e) {
-			System.out.println("Cringe");
-			System.out.println(e);
-		}
-		
-		a.makeFile();
-		*/
+//		/*
+//		Blob a = new Blob ("perplexing.txt");
+//		try {
+//			System.out.println(a.fileToString());
+//		} catch (IOException e) {
+//			System.out.println("Cringe");
+//			System.out.println(e);
+//		}
+//		
+//		a.makeFile();
+//		*/
 		
 		/*
 		Index b = new Index ();
@@ -31,15 +31,16 @@ public class Main {
 		*/
 		
 		///*
-		Commit c = new Commit(null, "objects/aogbaojbgaoghn", "this file was made with crack", "made by me");
-		
-		for (int i = 0; i < 10; i++) {
-			System.out.println(c.getDate());
-			TimeUnit.SECONDS.sleep(1);
-		}
-		
-		c.delete();
-		//*/
+//		Commit c = new Commit(null, "objects/aogbaojbgaoghn", "this file was made with crack", "made by me");
+//		
+//		for (int i = 0; i < 10; i++) {
+//			System.out.println(c.getDate());
+//			TimeUnit.SECONDS.sleep(1);
+//		}
+//		
+//		c.delete();
+//		//*/
+		String s = "";
 	}	
 	 
 }

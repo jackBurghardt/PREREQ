@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -36,17 +37,23 @@ public class Commit implements GitUtils {
 //    private String parent;
     private String pFile;
     private String SHA;
-    boolean head;
+    boolean headtf;
+    private File head = new File ("head");
 
 	
 	public Commit (Commit PARENT, String summary, String author) throws NoSuchAlgorithmException, IOException {
 		if (parent == null) {
-			head = true;
+			headtf = true;
+			
+			
 		}
 		else {
-			head = false;
+			headtf = false;
 		}
-
+		clear("head");
+		FileWriter fw = new FileWriter("head");
+		fw.write(this.Hash());
+		fw.close();
 		
 		this.author = author;
 		this.summary = summary; 
@@ -65,10 +72,14 @@ public class Commit implements GitUtils {
 	    pFile = PT.getShawed();
 		SHA = generateSha1( summary + date + author + parent);
 		writeToFile();
-		clear();
+		clear("index.txt");
 	}
-	public void clear () throws IOException {
-		File file = new File("index.txt");
+	public String  getSHA() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public void clear (String fileName) throws IOException {
+		File file = new File(fileName);
 		file.delete();
 		file.createNewFile();
 	}
@@ -102,7 +113,6 @@ line = reader.readLine();
 	}
 
 	public String generateSha1(String s) {
-		//return GitUtils.StringToSha(s) ;
 		return "";
 	}
 	
