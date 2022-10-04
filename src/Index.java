@@ -88,14 +88,7 @@ public class Index {
 	public File getIndexFile() {
 		return indexFile;
 	}
-	public static void main(String[] args) throws IOException
-	{
-		Index indy = new Index();
-		indy.addBlob("BLOB1.txt");
-//		indy.removeBlob("BLOB1.txt");
-		indy.addBlob("BLOB2.txt");
-		indy.removeBlob("BLOB2.txt");
+	
 		
-		
-	}
+	
 }
