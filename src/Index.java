@@ -40,7 +40,7 @@ public class Index {
 //			//adding true should mean data is not overwritten
 			PrintWriter pw = new PrintWriter("index.txt");
 			for (String str : blobMap.keySet()) {
-				pw.append(str + " : " +blobMap.get(str) + "\n");
+				pw.append(str + " : " + GitUtils.StringToSha(str) + "\n");
 			}
 			pw.flush();
 			pw.close();

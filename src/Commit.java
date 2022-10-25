@@ -81,12 +81,12 @@ public class Commit implements GitUtils {
 
 		ArrayList <String> strs = new ArrayList <String>();
 		if (parent!= null ) {
-			strs.add("Tree : " + parent.getPTree().getShawed());
+			strs.add("Tree : " + parent.SHA);
 		}
 		BufferedReader reader = new BufferedReader (new FileReader ("index.txt"));
 		String line = reader.readLine();
 		while (line!= null) {
-	strs.add("Blob: " + line.substring(line.indexOf(":")) + " " + line.substring(0, line.indexOf(":")));
+	strs.add("Blob" + line.substring(line.indexOf(":")) + " " + line.substring(0, line.indexOf(":")));
 System.out.println(line);
 line = reader.readLine();
 		}
@@ -102,8 +102,8 @@ line = reader.readLine();
 	}
 
 	public String generateSha1(String s) {
-		//return GitUtils.StringToSha(s) ;
-		return "";
+		return GitUtils.StringToSha(s) ;
+
 	}
 	
 	private void prepTime() {
@@ -259,12 +259,12 @@ line = reader.readLine();
 		
 		String toWrite = "";
 		
-		toWrite += PT.toString() + "\n";
+		toWrite += SHA + "\n";
 		
-		if (parent != null) { toWrite += parent.PT.toString() + "\n"; }
+		if (parent != null) { toWrite += parent.SHA + "\n"; }
 		else { toWrite += "\n"; } 
 		
-		if (child != null) { toWrite += child.PT.toString() + "\n"; }
+		if (child != null) { toWrite += child.SHA + "\n"; }
 		else { toWrite += "\n"; } 
 		
 		toWrite += author + "\n";
